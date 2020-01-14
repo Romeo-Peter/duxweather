@@ -8,7 +8,7 @@ const WeatherReducer = (state=[], action) => {
 	switch (action.type) {
 		case FETCH_WEATHER:
 			// Create copy of state array, then mutate.
-			return [ action.payload.date, ...state ];
+			return [ action.payload.data, ...state ];
 
 			// This line of works just as the top code
 			// Uncomment for for testing
