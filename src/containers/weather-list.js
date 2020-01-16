@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Sparklines, SparklinesLine, SparklinesSpots } from 'react-sparklines';
+import Chart from '../components/chart';
 
 
 class WeatherList extends Component{
@@ -10,18 +10,16 @@ class WeatherList extends Component{
 
 	renderWeather(cityData) {
 		const name = cityData.city.name;
-		const temp = cityData.list.map(weather => weather.main.temp);
-		console.log(temp)
+		const temps = cityData.list.map(weather => weather.main.temp);
+		const pressures = cityData.list.map(weather => weather.main.pressure);
+		const humidities = cityData.list.map(weather => weather.main.humidity);
 		
 		return (
 			<tr key={name}>
 				<td>{name}</td>
-				<td>
-					<Sparklines data={temp} width={180} height={20}>
-						<SparklinesLine color='green' />
-						<SparklinesSpots />
-					</Sparklines>
-				</td>
+				<td><Chart data={temps} units="K" color={"red"} width={180} height={20} /></td>
+				<td><Chart data={pressures}units="hPa" color={"orange"} width={180} height={20} /></td>
+				<td><Chart data={humidities}units="%" color={"skyblue"} width={180} height={20} /></td>
 			</tr>
 		);
 	}
@@ -31,10 +29,10 @@ class WeatherList extends Component{
 		   	<table className="table table-hover">
 		   		<thead>
 		   			<tr>
-		   				<th>City<span>🏙</span></th>
-		   				<th>Temperature<span>🌡</span></th>
-		   				<th>Pressure<span>🌬</span></th>
-		   				<th>Humidity<span>💧</span></th>
+		   				<th scope="col">City</th>
+		   				<th scope="col">Temperature (K)</th>
+		   				<th scope="col">Pressure (hPa)</th>
+		   				<th scope="col">Humidity (%)</th>
 		   			</tr>
 		   		</thead>
 		   		<tbody>
@@ -51,5 +49,3 @@ function mapStateToProps({ weather }) {
 }
 
 export default connect(mapStateToProps)(WeatherList);
-
-// Next: Adding sparkling chart.
